@@ -4,6 +4,8 @@ using UnityEngine;
 public class MeshMaker : MonoBehaviour
 {
     public bool autoUpdate;
+    public bool makeCylinder;
+    public bool addWormhole;
 
     [Range(3, 40)]
     public int numSides;
@@ -14,11 +16,24 @@ public class MeshMaker : MonoBehaviour
     [Min(0.01f)]
     public float polygonSideLength;
 
+    [Range(0, 4)]
+    public int numSubdivisions;
 
-    // [Range(0, 4)]
-    // public int numSubdivisions;
 
     public void MakeMesh()
+    {
+        if (makeCylinder)
+        {
+            MakeCylinderMesh();
+        }
+        else
+        {
+            MakeIcosahedronMesh();
+        }
+        // MakeIcosahedronMesh();
+    }
+
+    public void MakeCylinderMesh()
     {
         Debug.Log("GenerateMesh invoked...");
 
@@ -31,11 +46,14 @@ public class MeshMaker : MonoBehaviour
         var pc = new PolygonCylinder(numSides, length, polygonSideLength);
         pc.AddPolygonCylinderToMesh(meshData);
 
-        Debug.Log("Getting SPLAY data...");
-        var splayData = new SplayData(50, 50);
-        Debug.Log("Getting SPLAY mesh...");
-        var pcs = new PolygonalCylinderSplay(pc.polygon, pc.polygonSideLength, splayData);
-        pcs.AddPolygonalCylinderSplayToMesh(meshData);
+        if (addWormhole)
+        {
+            Debug.Log("Getting SPLAY data...");
+            var splayData = new SplayData(50, 50);
+            Debug.Log("Getting SPLAY mesh...");
+            var pcs = new PolygonalCylinderSplay(pc.polygon, pc.polygonSideLength, splayData);
+            pcs.AddPolygonalCylinderSplayToMesh(meshData);
+        }
 
         Debug.Log("Drawing mesh...");
         MeshDrawer drawer = FindObjectOfType<MeshDrawer>();

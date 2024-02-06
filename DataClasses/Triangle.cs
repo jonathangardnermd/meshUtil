@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Triangle
@@ -16,5 +17,16 @@ public class Triangle
     public override string ToString()
     {
         return string.Format("{0,-40}{1,-40}{2,-40}", vertex1, vertex2, vertex3);
+    }
+}
+
+
+public class TriangleIdxs
+{
+    public readonly List<int> vertices;
+
+    public TriangleIdxs(int a, int b, int c)
+    {
+        vertices = new List<int>() { a, b, c };
     }
 }

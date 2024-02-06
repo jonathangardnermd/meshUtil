@@ -95,8 +95,8 @@ public class IcosahedronGenerator
     {
         MeshData mesh = new MeshData
         {
-            vertices = vertices.ToArray(),
-            triangleIdxs = triangles.SelectMany(triangle => triangle.vertices).ToArray(),
+            vertices = vertices,
+            triangleIdxs = triangles.SelectMany(triangle => triangle.vertices).ToList(),
             // uv = uvs
         };
         // mesh.RecalculateNormals();
