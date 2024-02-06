@@ -7,10 +7,10 @@ public class MeshDrawer : MonoBehaviour
 
     public void DrawMesh(MeshData meshData, Texture2D texture)
     {
-        Debug.Log("Creating mesh...");
+        if (Config.debugModeEnabled) Debug.Log("Creating mesh...");
         meshFilter.sharedMesh = meshData.CreateMesh();
-        Debug.Log("Setting texture...");
+        if (Config.debugModeEnabled) Debug.Log("Setting texture...");
         meshRenderer.sharedMaterial.mainTexture = texture;
-        Debug.Log("Done Drawing Mesh");
+        if (Config.debugModeEnabled) Debug.Log("Done Drawing Mesh");
     }
 }

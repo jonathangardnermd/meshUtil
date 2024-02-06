@@ -21,8 +21,8 @@ public class PolygonCylinder
 
         StackPolygons(meshData, polygon, length, polygonVertexRadius, polygonVertexRadius, 0, length);
 
-        Debug.Log("Triangles used:\n" + meshData.TrianglesToString());
-        Debug.Log($"NumVertices={meshData.vertices.Count}, NumTriangleIdxs={meshData.triangleIdxs.Count}, NumTriangles={meshData.Triangles.Length}");
+        if (Config.debugModeEnabled) Debug.Log("Triangles used:\n" + meshData.TrianglesToString());
+        if (Config.debugModeEnabled) Debug.Log($"NumVertices={meshData.vertices.Count}, NumTriangleIdxs={meshData.triangleIdxs.Count}, NumTriangles={meshData.Triangles.Length}");
     }
 
     public static void StackPolygons(MeshData meshData, Polygon polygon, float totLength, float vertexRadius1, float vertexRadius2, float z1, float z2)

@@ -12,14 +12,14 @@ public class EditorForMeshMaker : Editor
         {
             if (maker.autoUpdate)
             {
-                Debug.Log("Params updated. Re-generating mesh...");
+                // Debug.Log("Params updated. Re-generating mesh...");
                 maker.MakeMesh();
             }
         }
 
         if (GUILayout.Button("Generate Mesh"))
         {
-            Debug.Log("Generate Mesh was clicked...");
+            // Debug.Log("Generate Mesh was clicked...");
             maker.MakeMesh();
         }
     }

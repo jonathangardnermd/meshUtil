@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MeshMaker : MonoBehaviour
 {
+    public bool debugModeEnabled;
     public bool autoUpdate;
     public bool makeCylinder;
     public bool addWormhole;
@@ -25,6 +26,7 @@ public class MeshMaker : MonoBehaviour
 
     public void MakeMesh()
     {
+        Config.debugModeEnabled = debugModeEnabled;
         if (makeCylinder)
         {
             MakeCylinderMesh();
@@ -33,58 +35,58 @@ public class MeshMaker : MonoBehaviour
         {
             MakeIcosahedronMesh();
         }
-        // MakeIcosahedronMesh();
     }
 
     public void MakeCylinderMesh()
     {
-        Debug.Log("GenerateMesh invoked...");
+        if (Config.debugModeEnabled) Debug.Log("GenerateMesh invoked...");
 
-        Debug.Log("Getting texture...");
+
+        if (Config.debugModeEnabled) Debug.Log("Getting texture...");
         var texture = GetTexture();
 
         var meshData = new MeshData();
 
-        Debug.Log("Getting mesh...");
+        if (Config.debugModeEnabled) Debug.Log("Getting mesh...");
         var pc = new PolygonCylinder(numSides, length, polygonVertexRadius);
         pc.AddPolygonCylinderToMesh(meshData);
 
         if (addWormhole)
         {
-            Debug.Log("Getting SPLAY data...");
+            if (Config.debugModeEnabled) Debug.Log("Getting SPLAY data...");
             var splayData = new SplayData(numSplaySubdivisions, totChangeInU);
-            splayData.SaveToCSV("./Assets/data/splayData.csv");
-            Debug.Log("Getting SPLAY mesh...");
+            if (Config.debugModeEnabled) splayData.SaveToCSV("./Assets/data/splayData.csv");
+            if (Config.debugModeEnabled) Debug.Log("Getting SPLAY mesh...");
             var pcs = new PolygonalCylinderSplay(pc.polygon, pc.polygonVertexRadius, splayData);
             pcs.AddPolygonalCylinderSplayToMesh(meshData);
         }
 
-        Debug.Log("Drawing mesh...");
+        if (Config.debugModeEnabled) Debug.Log("Drawing mesh...");
         MeshDrawer drawer = FindObjectOfType<MeshDrawer>();
         drawer.DrawMesh(meshData, texture);
 
-        Debug.Log("Mesh generation complete");
+        if (Config.debugModeEnabled) Debug.Log("Mesh generation complete");
     }
 
     public void MakeIcosahedronMesh()
     {
-        Debug.Log("GenerateMesh invoked...");
+        if (Config.debugModeEnabled) Debug.Log("GenerateMesh invoked...");
 
-        Debug.Log("Getting texture...");
+        if (Config.debugModeEnabled) Debug.Log("Getting texture...");
         var texture = GetTexture();
 
-        Debug.Log("Getting mesh...");
+        if (Config.debugModeEnabled) Debug.Log("Getting mesh...");
         var icosahedron = new IcosahedronGenerator();
         icosahedron.Initialize();
         icosahedron.Subdivide(numIcoSubdivisions);
 
         var meshData = icosahedron.GetMeshData();
 
-        Debug.Log("Drawing mesh...");
+        if (Config.debugModeEnabled) Debug.Log("Drawing mesh...");
         MeshDrawer drawer = FindObjectOfType<MeshDrawer>();
         drawer.DrawMesh(meshData, texture);
 
-        Debug.Log("Mesh generation complete");
+        if (Config.debugModeEnabled) Debug.Log("Mesh generation complete");
     }
 
     private static Texture2D GetTexture()

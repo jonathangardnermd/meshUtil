@@ -25,14 +25,6 @@ public class PolygonalCylinderSplay
         var totSplayLength = splayData.GetTotalChangeInY();
         for (int splayLevel = 1; splayLevel <= this.splayData.numDivisions; splayLevel++)
         {
-            if (splayLevel == this.splayData.numDivisions)
-            {
-                Debug.Log("here");
-            }
-            if (splayLevel == this.splayData.numDivisions - 1)
-            {
-                Debug.Log("here");
-            }
             var sd = this.splayData.xyChanges[splayLevel];
             nextVertexRadius = baseVertexRadius + sd.x;
 
@@ -40,16 +32,16 @@ public class PolygonalCylinderSplay
             PolygonCylinder.StackPolygons(meshData, polygon, totSplayLength, prevVertexRadius, nextVertexRadius, prevZ, nextZ);
 
 
-            Debug.Log($"prevZ={prevZ}, nextZ={nextZ}, prevVertexRadius={prevVertexRadius}, nextVertexRadius={nextVertexRadius}");
+            if (Config.debugModeEnabled) Debug.Log($"prevZ={prevZ}, nextZ={nextZ}, prevVertexRadius={prevVertexRadius}, nextVertexRadius={nextVertexRadius}");
             prevVertexRadius = nextVertexRadius;
             prevZ = nextZ;
         }
         PolygonCylinder.StackPolygons(meshData, polygon, totSplayLength, nextVertexRadius, nextVertexRadius * 100, prevZ, prevZ);
 
         var triangleStr = meshData.TrianglesToString();
-        Debug.Log("SPLAY Triangles used:\n" + triangleStr);
-        SaveToCSV(triangleStr, "./Assets/data/triangles.txt");
-        Debug.Log($"SPLAY NumVertices={meshData.vertices.Count}, NumTriangleIdxs={meshData.triangleIdxs.Count}, NumTriangles={meshData.Triangles.Length}");
+        if (Config.debugModeEnabled) Debug.Log("SPLAY Triangles used:\n" + triangleStr);
+        if (Config.debugModeEnabled) SaveToCSV(triangleStr, "./Assets/data/triangles.txt");
+        if (Config.debugModeEnabled) Debug.Log($"SPLAY NumVertices={meshData.vertices.Count}, NumTriangleIdxs={meshData.triangleIdxs.Count}, NumTriangles={meshData.Triangles.Length}");
     }
 
     public void SaveToCSV(string triangleStr, string filePath)
