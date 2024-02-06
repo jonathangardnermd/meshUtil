@@ -16,8 +16,9 @@ public class MeshMaker : MonoBehaviour
     [Min(0.01f)]
     public float polygonSideLength;
 
-    [Range(0, 4)]
+    [Range(0, 20)]
     public int numSubdivisions;
+    public float totChangeInU;
 
 
     public void MakeMesh()
@@ -49,7 +50,7 @@ public class MeshMaker : MonoBehaviour
         if (addWormhole)
         {
             Debug.Log("Getting SPLAY data...");
-            var splayData = new SplayData(50, 50);
+            var splayData = new SplayData(numSubdivisions, totChangeInU);
             Debug.Log("Getting SPLAY mesh...");
             var pcs = new PolygonalCylinderSplay(pc.polygon, pc.polygonSideLength, splayData);
             pcs.AddPolygonalCylinderSplayToMesh(meshData);
