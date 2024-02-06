@@ -17,25 +17,14 @@ public class Polygon
         SetUnitVertices();
     }
 
-    public Vector2[] GetVertices(float sideLength)
+    public Vector2[] GetVertices(float vertexRadius)
     {
-        return vertices.Select(v => v * sideLength).ToArray();
-    }
-
-    public float SideLengthToVertexRadius(float sideLength)
-    {
-        return sideLength * 0.5f / Mathf.Sin(0.5f * angle); // r = (sideLength/2) / sin(angle/2)
-    }
-    public float VertexRadiusToSideLength(float vertexRadius)
-    {
-        return 2 * vertexRadius * Mathf.Sin(0.5f * angle); // s =  2 * r * sin(angle/2)
+        return vertices.Select(v => v * vertexRadius).ToArray();
     }
 
     void SetUnitVertices()
     {
         angle = 2 * Mathf.PI / numSides;
-
-        vertexRadius = 0.5f / Mathf.Sin(0.5f * angle); // r = (sideLength/2) / sin(angle/2)
 
         vertices = new Vector2[numSides];
         angularUvs = new float[numSides];

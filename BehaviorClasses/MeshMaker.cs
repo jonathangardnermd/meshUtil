@@ -14,10 +14,12 @@ public class MeshMaker : MonoBehaviour
     public float length;
 
     [Min(0.01f)]
-    public float polygonSideLength;
+    public float polygonVertexRadius;
 
+    [Range(0, 4)]
+    public int numIcoSubdivisions;
     [Range(0, 20)]
-    public int numSubdivisions;
+    public int numSplaySubdivisions;
     public float totChangeInU;
 
 
@@ -44,15 +46,16 @@ public class MeshMaker : MonoBehaviour
         var meshData = new MeshData();
 
         Debug.Log("Getting mesh...");
-        var pc = new PolygonCylinder(numSides, length, polygonSideLength);
+        var pc = new PolygonCylinder(numSides, length, polygonVertexRadius);
         pc.AddPolygonCylinderToMesh(meshData);
 
         if (addWormhole)
         {
             Debug.Log("Getting SPLAY data...");
-            var splayData = new SplayData(numSubdivisions, totChangeInU);
+            var splayData = new SplayData(numSplaySubdivisions, totChangeInU);
+            splayData.SaveToCSV("./Assets/data/splayData.csv");
             Debug.Log("Getting SPLAY mesh...");
-            var pcs = new PolygonalCylinderSplay(pc.polygon, pc.polygonSideLength, splayData);
+            var pcs = new PolygonalCylinderSplay(pc.polygon, pc.polygonVertexRadius, splayData);
             pcs.AddPolygonalCylinderSplayToMesh(meshData);
         }
 
@@ -73,7 +76,7 @@ public class MeshMaker : MonoBehaviour
         Debug.Log("Getting mesh...");
         var icosahedron = new IcosahedronGenerator();
         icosahedron.Initialize();
-        icosahedron.Subdivide(numSubdivisions);
+        icosahedron.Subdivide(numIcoSubdivisions);
 
         var meshData = icosahedron.GetMeshData();
 

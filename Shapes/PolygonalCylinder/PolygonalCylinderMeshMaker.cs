@@ -4,31 +4,31 @@ public class PolygonCylinder
 {
     public int numSides;
     public float length;
-    public float polygonSideLength;
+    public float polygonVertexRadius;
 
     public Polygon polygon;
 
-    public PolygonCylinder(int numSides, float length, float polygonSideLength)
+    public PolygonCylinder(int numSides, float length, float polygonVertexRadius)
     {
         this.numSides = numSides;
         this.length = length;
-        this.polygonSideLength = polygonSideLength;
+        this.polygonVertexRadius = polygonVertexRadius;
     }
 
     public void AddPolygonCylinderToMesh(MeshData meshData)
     {
         polygon = new Polygon(numSides);
 
-        StackPolygons(meshData, polygon, length, polygonSideLength, polygonSideLength, 0, length);
+        StackPolygons(meshData, polygon, length, polygonVertexRadius, polygonVertexRadius, 0, length);
 
         Debug.Log("Triangles used:\n" + meshData.TrianglesToString());
         Debug.Log($"NumVertices={meshData.vertices.Count}, NumTriangleIdxs={meshData.triangleIdxs.Count}, NumTriangles={meshData.Triangles.Length}");
     }
 
-    public static void StackPolygons(MeshData meshData, Polygon polygon, float totLength, float sideLength1, float sideLength2, float z1, float z2)
+    public static void StackPolygons(MeshData meshData, Polygon polygon, float totLength, float vertexRadius1, float vertexRadius2, float z1, float z2)
     {
-        Vector2[] poly1Vs = polygon.GetVertices(sideLength1);
-        Vector2[] poly2Vs = polygon.GetVertices(sideLength2);
+        Vector2[] poly1Vs = polygon.GetVertices(vertexRadius1);
+        Vector2[] poly2Vs = polygon.GetVertices(vertexRadius2);
 
         float[] angularUvs = polygon.angularUvs;
 

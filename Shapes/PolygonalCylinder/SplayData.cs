@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.IO;
 
 public class SplayData
 {
@@ -65,5 +66,29 @@ public class SplayData
     public float GetTotalChangeInY()
     {
         return totChangeInU / sqrt2;
+    }
+
+    public void SaveToCSV(string filePath)
+    {
+        // Create a StringBuilder to build the CSV content
+        System.Text.StringBuilder csvContent = new System.Text.StringBuilder();
+
+        // Add header row
+        csvContent.AppendLine("uChange,vChange,xChange,yChange");
+
+        // Add data rows
+        for (int i = 0; i < uvChanges.Count; i++)
+        {
+            var line = string.Format("{0},{1},{2},{3}",
+                uvChanges[i].x,
+                uvChanges[i].y,
+                xyChanges[i].x,
+                xyChanges[i].y);
+            Debug.Log($"SPLAYDATA: {uvChanges[i]}");
+            csvContent.AppendLine(line);
+        }
+
+        // Write the CSV content to the file
+        File.WriteAllText(filePath, csvContent.ToString());
     }
 }
